@@ -1,9 +1,17 @@
-const { findByRoles } = require("./user.controllers");
+const { ADMIN, USER } = require("../../../constant/permissions");
 const controllers = require("./user.controllers");
 const validators = require("./user.validators");
 
 //Constructing API's for the user controllers
 const routes = {
+
+    list: {
+        method: 'GET',
+        path: '',
+        description: 'Lists all of the existing users',
+        permissions: [ADMIN]
+
+    },
 
     //Creating API for user register method
     register: {
@@ -51,6 +59,7 @@ const routes = {
         method: 'DELETE',
         path: '/{id}',
         description: 'Archiving the user instead of deleting it permanantly',
+        permissions: [USER.REMOVE]
     },
 
 
@@ -59,7 +68,8 @@ const routes = {
     update: {
         method: 'POST',
         path: '/{id}/update',
-        description:"Updating the user information"
+        description:"Updating the user information",
+        permissions: [USER.WRITE]
     },
 
 
@@ -75,7 +85,8 @@ const routes = {
       findByRoles: {
         method: 'GET',
         path: '/role/{roles}',
-        description: "Getting the user infromation according to the role"
+        description: "Getting the user infromation according to the role",
+        permissions: [USER.READ]
     },
 
 

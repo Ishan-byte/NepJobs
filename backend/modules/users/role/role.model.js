@@ -6,7 +6,7 @@ const dynamicschema = require("../../../helpers/schema")
 //Storing the user data into a constant to reduce hassle code
 const schema = {
     name: { type: String, required: true},
-    permissions : { type: String, required: true},
+    permissions : { type: Array, required: true},
     ...dynamicschema,
 }
 

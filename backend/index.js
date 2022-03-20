@@ -7,12 +7,13 @@ const Vision = require('@hapi/vision');
 const HapiSwagger = require('hapi-swagger');
 const app = require('./app');
 const registerFeats = require('./boot/register_modules')
+require('dotenv').config();
 
 //Port number for database
 const port = 4000;
 
 //storing the URL of database in a constant to reduce hassle code
-const db = 'mongodb://localhost:27017/NepJobs';
+const db = process.env.MONGODB_URL
 
 //connecting to the database using mongoose framework
 mongoose.connect(db, {

@@ -59,6 +59,7 @@ const Role = {
     //to get permissions of a specific role
     async getPermissions (name) {
         const user = await RoleModel.findOne({ name: name.toUpperCase()})
+        
         return user ? user.permissions : [];
     },
 

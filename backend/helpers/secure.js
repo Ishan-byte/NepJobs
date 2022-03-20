@@ -1,4 +1,4 @@
-const { User } = require('../modules/users/user.controllers');
+const { User } = require('../modules/users/user/user.controllers');
 
 const Secure = async (routePermissions, req) => {
   if (routePermissions.length === 0) return true;
@@ -7,7 +7,8 @@ const Secure = async (routePermissions, req) => {
   if (!token) throw Error('No access token was sent');
 
   try {
-    const decoded = User.validateToken(token);
+    
+    const decoded = await User.validateToken(token);
     const {user, permissions} = decoded;
     return permissions.some((permission)=>routePermissions.includes(permission));
   } catch (e) {

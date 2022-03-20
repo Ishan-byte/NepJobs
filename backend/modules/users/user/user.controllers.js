@@ -3,7 +3,8 @@ const UserModel = require('./user.model')
 //Importing other necessary packages
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken")
-//const Role = require("./role.controllers");
+const Role = require("../role/role.controllers");
+//const permissions = require('../../../constant/permissions');
 require('dotenv').config();
 
 //Making of the User constant
@@ -54,6 +55,11 @@ const User = {
     //Archive a specific user function
     async archive(id){
         return UserModel.findOneAndUpdate({ _id: id, is_archived: false}, {is_archived: true})
+    },
+
+
+    async list() {
+        return await UserModel.find({is_archived: false})
     },
 
 
@@ -167,7 +173,8 @@ const User = {
             throw { message: "Token not correct. Please Login and Try again.", code: 400};
         }
 
-        permissions = await Role.getPermissions(user.role);
+        const permissions = await Role.Role.getPermissions(user.role);
+       
         return {user, permissions};
     },
 
@@ -229,6 +236,7 @@ const User = {
 // Exporting the user constant as well as other methods for dynamic use
 module.exports = {
     User, 
+    list: (req) => User.list(),
     getById: (req) => User.getById(req.params.id),
     findById: (req) => User.findById(req.params.id),
     findByRoles: (req) => User.findByRoles(req.params.role),
