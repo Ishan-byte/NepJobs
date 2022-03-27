@@ -71,14 +71,8 @@ module.exports = {
             oldPassword: Joi.string().description("Old password of the user"),
             newPassword: Joi.string().description("New password of the user"),
         })
-    },
-
-    //For auth
-    auth: {
-        params: Joi.object({
-            token: Joi.string()
-        })
     }
+
 
     
 }

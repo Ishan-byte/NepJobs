@@ -85,14 +85,16 @@ const routes = {
       findByRoles: {
         method: 'GET',
         path: '/role/{roles}',
-        description: "Getting the user infromation according to the role",
+        description: "Getting the user information according to the role",
         permissions: [USER.READ]
     },
 
-
-
-
-
+    //Creating API for getting the user token
+    getToken: {
+        method: 'GET',
+        path: '/auth/{token}',
+        description: "Getting the user token"
+    }
 
 
 }//End of routes constant

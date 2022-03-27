@@ -142,10 +142,13 @@ const User = {
                     user.token = token
 
                     //returns the data of the user extracted from the database for further use or validations
+                    var permissions =await Role.Role.getPermissions(user.role);
                     return {
                         role:user.role,
                         token,
+                        permissions,
                         email,
+                        is_registered:user.is_registered,
                         user_id: user._id
                     }
                }else{
