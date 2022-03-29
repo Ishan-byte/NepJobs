@@ -6,9 +6,11 @@ import AuthProtect from '../Global/authProtect';
 import ComponentWrapper from '../Global/componentWrapper';
 import { ROLES } from '../Constants/index';
 import { Redirect } from 'react-router-dom';
+import DashboardLayout from "../Layout";
 
 const Routes =  {
     path: '*',
+    layout: DashboardLayout,
     routes: [
         {
             exact: true,

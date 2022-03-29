@@ -1,17 +1,23 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
+import { Button } from "@material-ui/core";
 
 const Register = () => {
+  let [countries] = useState([
+    { id: 1, countryName: "India" },
+    { id: 2, countryName: "UK" },
+    { id: 3, countryName: "USA" },
+    { id: 4, countryName: "Japan" },
+    { id: 5, countryName: "France" },
+    { id: 6, countryName: "Brazil" },
+    { id: 7, countryName: "Mexico" },
+    { id: 8, countryName: "Canada" },
+  ]);
 
-    let [countries] = useState([
-        { id: 1, countryName: "India" },
-        { id: 2, countryName: "UK" },
-        { id: 3, countryName: "USA" },
-        { id: 4, countryName: "Japan" },
-        { id: 5, countryName: "France" },
-        { id: 6, countryName: "Brazil" },
-        { id: 7, countryName: "Mexico" },
-        { id: 8, countryName: "Canada" },
-      ]);
+  let [roles] = useState([
+    { id: 1, roleName: "Admin" },
+    { id: 2, roleName: "Jobseeker" },
+    { id: 3, roleName: "Employer" },
+  ]);
 
   return (
     <div className="row">
@@ -32,11 +38,7 @@ const Register = () => {
                 Email
               </label>
               <div className="col-lg-8">
-                <input
-                  type="text"
-                  id="email"
-                  className="form-control"
-                />
+                <input type="text" id="email" className="form-control" />
               </div>
             </div>
             {/* Email Ends */}
@@ -91,12 +93,8 @@ const Register = () => {
                 Country
               </label>
               <div className="col-lg-8">
-                <select
-                  id="country"
-                  name="country"
-                  className="form-control"
-                >
-                    {countries.map((country) => (
+                <select id="country" name="country" className="form-control">
+                  {countries.map((country) => (
                     <option key={country.id} value={country.id}>
                       {country.countryName}
                     </option>
@@ -105,12 +103,30 @@ const Register = () => {
               </div>
             </div>
             {/* Country Ends */}
+            {/* Role Starts */}
+            <div className="form-group form-row">
+              <label className="col-lg-4" htmlFor="role">
+                Role
+              </label>
+              <div className="col-lg-8">
+                <select id="role" name="role" className="form-control">
+                  {roles.map((role) => (
+                    <option key={role.id} value={role.id}>
+                      {role.roleName}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            </div>
+            {/* Role Ends */}
+          </div> 
+          <div className="card-footer">
+            <Button variant="contained" color="primary">Register</Button>
           </div>
         </div>
       </div>
     </div>
   );
 };
-
 
 export default Register;

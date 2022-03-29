@@ -5,17 +5,21 @@ import AccountCircle from "@material-ui/icons/AccountCircle";
 import KeyIcon from "@mui/icons-material/Key";
 import { Button } from "@material-ui/core";
 import { UserContext } from "../../Modules/Users/context";
+import {useHistory} from 'react-router-dom';
+import {routes} from '../../Routes/path';
 
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const { userLogin } = useContext(UserContext);
+  const history = useHistory();
 
   //  Login function
   const onLoginClick = async () => {
     try {
       await userLogin({ email, password });
+      history.push(routes.app);
     } catch (err) {
       console.error(err);
     }
