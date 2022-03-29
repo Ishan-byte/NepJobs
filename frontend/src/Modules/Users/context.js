@@ -30,19 +30,25 @@ export const UserContextProvider = ({children}) => {
         dispatch({type: actions.SET_USER, data: res.data});
         return res;
     }
+    async function getAllRoles(payload) {
+        return await Service.getAllRole();
+    }
 
     //Register function
-    async function getUser(payload) {
+    async function addUser(payload) {
         var form = new FormData();
         form.append("email", payload.email);
         form.append("password", payload.password);
         form.append("fullname", payload.fullName);
-        form.append("dateOfBirth", payload.dataOfBirth);
+        form.append("dateOfBirth", payload.dob);
         form.append("country", payload.country);
         form.append("role", payload.role);
 
         return await Service.addUser(form);
     }
+
+    //approving the user function\
+  
 
     //GetAllusers function
     async function getAllUser(payload) {
@@ -54,8 +60,12 @@ export const UserContextProvider = ({children}) => {
         return await Service.getAllRole(payload);
     }
 
+    function logOut() {
+        return Service.logOut();
+    }
+
 
     return (
-        <UserContext.Provider value={{ userLogin, getUser, getAllUser, getAllRole}}>{children}</UserContext.Provider>
+        <UserContext.Provider value={{ addUser, getAllRoles, userLogin, logOut, getAllUser, getAllRole}}>{children}</UserContext.Provider>
     )
 } 

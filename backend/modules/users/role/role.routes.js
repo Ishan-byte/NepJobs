@@ -10,7 +10,11 @@ const routes = {
         path: '',
         description: 'Registers a new role in the Role Table',
     },
-
+    list: {
+        method: 'GET',
+        path: '',
+        description: 'GET all roles',
+    },
 
 
     //Creating API for getting a role information method

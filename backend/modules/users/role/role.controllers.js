@@ -42,6 +42,11 @@ const Role = {
         const get = RoleModel.findById(id);
         return get;
     },
+    async list () {
+        //getting a specific role by using its id
+        const get = RoleModel.find();
+        return get;
+    },
 
 
     //to archive a specific role information from Role table
@@ -119,6 +124,7 @@ const Role = {
 module.exports = {
     Role, 
     add: (req) => Role.add(req.payload),
+    list: () => Role.list(),
     getrole: (req) => Role.getrole(req.params.id),
     delete: (req) => Role.archive(req.params.id),
     getPermissions: (req) => Role.getPermissions(req.params.name),

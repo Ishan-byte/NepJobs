@@ -1,23 +1,39 @@
-import React, { useState } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { Button } from "@material-ui/core";
+import { UserContext } from "../../Modules/Users/context";
+import { SnackbarProvider, useSnackbar } from 'notistack';
+import { useHistory } from "react-router-dom";
+import { pagePath, routes } from "../../Routes/path";
 
-const Register = () => {
-  let [countries] = useState([
-    { id: 1, countryName: "India" },
-    { id: 2, countryName: "UK" },
-    { id: 3, countryName: "USA" },
-    { id: 4, countryName: "Japan" },
-    { id: 5, countryName: "France" },
-    { id: 6, countryName: "Brazil" },
-    { id: 7, countryName: "Mexico" },
-    { id: 8, countryName: "Canada" },
-  ]);
 
-  let [roles] = useState([
-    { id: 1, roleName: "Admin" },
-    { id: 2, roleName: "Jobseeker" },
-    { id: 3, roleName: "Employer" },
-  ]);
+const RegisterComponent = () => {
+  const { enqueueSnackbar } = useSnackbar();
+  const { getAllRoles, addUser } = useContext(UserContext);
+  const [roles, setRoles] = useState([]);
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [fullName, setFullName] = useState('');
+  const [dob, setDob] = useState('');
+  const [country, setCountry] = useState('');
+  const [role, setRole] = useState('');
+  const history = useHistory();
+
+
+  useEffect(async () => {
+    const res = await getAllRoles();
+    setRoles(res);
+    setRole(res[0].name);
+  }, [getAllRoles])
+
+  const handleRegister = async () => {
+    try{
+      const res = await addUser({ email, password, fullName, dob, country, role });
+      enqueueSnackbar("added user successfully", {variant: 'success'});
+    }catch(err){
+      enqueueSnackbar(err.response.data.message, {variant: 'error'});
+    }
+
+  }
 
   return (
     <div className="row">
@@ -38,7 +54,7 @@ const Register = () => {
                 Email
               </label>
               <div className="col-lg-8">
-                <input type="text" id="email" className="form-control" />
+                <input onChange={(e) => { setEmail(e.target.value) }} type="text" id="email" className="form-control" />
               </div>
             </div>
             {/* Email Ends */}
@@ -49,6 +65,7 @@ const Register = () => {
               </label>
               <div className="col-lg-8">
                 <input
+                  onChange={(e) => { setPassword(e.target.value) }} 
                   type="password"
                   id="password"
                   name="password"
@@ -64,6 +81,7 @@ const Register = () => {
               </label>
               <div className="col-lg-8">
                 <input
+                  onChange={(e) => { setFullName(e.target.value) }} 
                   type="text"
                   id="fullName"
                   name="fullName"
@@ -79,6 +97,7 @@ const Register = () => {
               </label>
               <div className="col-lg-8">
                 <input
+                  onChange={(e) => { setDob(e.target.value) }} 
                   type="date"
                   id="dateOfBirth"
                   name="dateOfBirth"
@@ -93,13 +112,13 @@ const Register = () => {
                 Country
               </label>
               <div className="col-lg-8">
-                <select id="country" name="country" className="form-control">
-                  {countries.map((country) => (
-                    <option key={country.id} value={country.id}>
-                      {country.countryName}
-                    </option>
-                  ))}
-                </select>
+                <input
+                  onChange={(e) => { setCountry(e.target.value) }} 
+                  type="text"
+                  id="country"
+                  name="country"
+                  className="form-control"
+                />
               </div>
             </div>
             {/* Country Ends */}
@@ -109,24 +128,39 @@ const Register = () => {
                 Role
               </label>
               <div className="col-lg-8">
-                <select id="role" name="role" className="form-control">
+                <select 
+                  onChange={(e) => { setRole(e.target.value) }} 
+                 id="role" name="role" className="form-control">
                   {roles.map((role) => (
-                    <option key={role.id} value={role.id}>
-                      {role.roleName}
+                    <option key={role._id} value={role.name}>
+                      {role.name}
                     </option>
                   ))}
                 </select>
               </div>
             </div>
             {/* Role Ends */}
-          </div> 
+          </div>
           <div className="card-footer">
-            <Button variant="contained" color="primary">Register</Button>
+            <Button onClick={handleRegister} variant="contained" color="primary">Register</Button>
+            {'                    '}
+            <Button onClick={()=>{
+              window.location = pagePath.app.login;
+            }} variant="contained" color="primary">Login instead</Button>
           </div>
         </div>
       </div>
     </div>
   );
 };
+
+const Register=()=>{
+  return(
+    <SnackbarProvider>
+      <RegisterComponent/>
+    </SnackbarProvider>
+  )
+
+}
 
 export default Register;

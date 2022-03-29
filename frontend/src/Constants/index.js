@@ -1,4 +1,4 @@
 module.exports = {
     APP_VERSION: '1.0',
-    ROLES: { ADMIN : 'ADMIN', USER: 'USER'},
+    ROLES: { ADMIN : 'ADMIN', JOBSEEKER: 'JOBSEEKER',EMPLOYEER:'EMPLOYEER' },
 };

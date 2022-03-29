@@ -9,21 +9,7 @@ User = UserController.User;
 
 const roleAdder = async () => {
   await Role.register({
-    name: "Super Admin",
-    permissions: [
-      "app_admin",
-      "user_write",
-      "user_delete",
-      "user_read",
-      "user_list",
-      "user_admin",
-      "job_read",
-      "job_write",
-      "job_remove",
-    ],
-  });
-  await Role.register({
-    name: "Admin",
+    name: "ADMIN",
     permissions: [
       "app_admin",
       "user_write",
@@ -37,16 +23,28 @@ const roleAdder = async () => {
     ],
     is_system: true,
   });
-  // await Role.register({
-  //     name: 'Staff',
-  //     permissions: [
-  //         'job_read',
-  //         'job_write',
-  //     ],
-  // });
+  await Role.register({
+    name: "JOBSEEKER",
+    permissions: [
+      "job_read",
+      "job_write",
+    ],
+  });
+  await Role.register({
+    name: "EMPLOYEER",
+    permissions: [
+      "user_write",
+      "user_read",
+      "user_list",
+      "job_read",
+      "job_write",
+      "job_remove",
+    ],
+  });
+
   console.log("Admin Role is Added");
-  console.log("Super Admin Role Added");
-  console.log("Staff Manager Role Added");
+  console.log("Job seeker Role Added");
+  console.log("Employeer Role Added");
 };
 const userAdder = async () => {
   await User.register({
@@ -59,6 +57,6 @@ const userAdder = async () => {
   });
 };
 
-userAdder();
+//userAdder();
 
-//roleAdder();
+roleAdder();

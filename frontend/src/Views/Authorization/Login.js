@@ -6,7 +6,7 @@ import KeyIcon from "@mui/icons-material/Key";
 import { Button } from "@material-ui/core";
 import { UserContext } from "../../Modules/Users/context";
 import {useHistory} from 'react-router-dom';
-import {routes} from '../../Routes/path';
+import {pagePath, routes} from '../../Routes/path';
 
 
 const Login = () => {
@@ -77,6 +77,10 @@ const Login = () => {
           </div>
           <div className="card-footer">
             <Button onClick={onLoginClick} variant="contained" color="primary">Login</Button>
+            {'   '}
+            <Button onClick={()=>{
+              window.location = pagePath.app.register;
+            }} variant="contained" color="primary">Register instead</Button>
           </div>
         </div>
       </div>

@@ -1,6 +1,6 @@
 import axios from 'axios';
 import {USER, ROLES} from '../../Constants/Api.js';
-import { saveUser, saveUserToken, saveUserPermissions, getToken } from '../../Utils/SessionManager';
+import { saveUser, saveUserToken, saveUserPermissions, getToken, logOutUser } from '../../Utils/SessionManager';
 
 
 //getting token of the loggedIn user
@@ -55,12 +55,13 @@ export async function getAllUser (payload) {
 export async function getAllRole () {
     try {
         const response = await axios.get(ROLES);
-        return response.data.data;
+        return response.data;
     }
     catch(err) {
         return err;
     }
 }
+
 
 
 //function for verifying token
@@ -76,3 +77,6 @@ export async function verifyToken(token) {
 
 
 //function for logging out
+export function logOut() {
+    logOutUser();
+}
