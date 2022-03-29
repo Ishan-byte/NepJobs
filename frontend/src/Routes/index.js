@@ -7,6 +7,7 @@ import DefaultAuth from "../Global/defaultAuth";
 import { makeStyles } from '@material-ui/core/styles';
 import NProgress from 'nprogress';
 
+
 const routes = [
     {
         exact: true,
@@ -84,6 +85,7 @@ export const renderRoutes = (routes = []) => {
                 {routes.map((route, i) => {
                     const Component = route.component;
                     const Guard = route.guard || DefaultAuth;
+                    const Layout = route.Lgiayout
                     const authUsers = route.roles || [];
 
                     return (
