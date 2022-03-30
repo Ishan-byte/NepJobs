@@ -1,5 +1,4 @@
-import authProtect from "../Global/authProtect";
-import {ROLES} from '../Constants';
+import { ROLES } from "../Constants";
 import { routes } from "../Routes/path";
 import AuthProtectNav from "./AuthProtectNav";
 
@@ -10,10 +9,10 @@ const Navconfig = [
     roles: [ROLES.ADMIN],
     navs: [
       {
-        title: 'Admin',
+        title: "Admin",
         href: routes.admin,
       },
-    ]
+    ],
   },
 
   //For normal user
@@ -22,12 +21,11 @@ const Navconfig = [
     roles: [ROLES.ADMIN, ROLES.USER],
     navs: [
       {
-        title: 'Home',
+        title: "Home",
         href: routes.app,
-      }
-    ]
+      },
+    ],
   },
 ];
-
 
 export default Navconfig;

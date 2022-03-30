@@ -39,11 +39,11 @@ const Login = () => {
           </div>
           <div className="card-body border-bottom border-success">
             {/* For Email */}
-              <Grid container spacing={3} xs={8} alignItems="flex-end">
-                <Grid item>
+              <Grid container spacing={3}  alignItems="flex-end">
+                <Grid item xs={1}>
                   <AccountCircle />
                 </Grid>
-                <Grid item>
+                <Grid item xs={10}>
                   <TextField
                     id="logemail"
                     label="Email"
@@ -57,11 +57,11 @@ const Login = () => {
               </Grid>
             {/* Email Ends */}
             {/* For Password */}
-              <Grid container spacing={3} xs={8} alignItems="flex-end">
-                <Grid item>
+              <Grid container spacing={3}  alignItems="flex-end">
+                <Grid item xs={1}>
                   <KeyIcon />
                 </Grid>
-                <Grid item>
+                <Grid item xs={10}>
                   <TextField
                     id="logpassword"
                     label="Password"

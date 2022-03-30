@@ -18,11 +18,13 @@
     "axios": "^0.26.0",
     "bootstrap": "4.5.3",
     "dotenv": "^16.0.0",
+    "dotenv-webpack": "^7.1.0",
     "notistack": "^2.0.3",
     "nprogress": "^0.2.0",
     "prop-types": "^15.8.1",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
+    "react-error-overlay": "6.0.9",
     "react-helmet": "^6.1.0",
     "react-router-dom": "5.2.0",
     "react-scripts": "4.0.3",
@@ -41,6 +43,9 @@
       "react-app",
       "react-app/jest"
     ]
+  },
+  "resolutions": {
+    "react-error-overlay": "6.0.9"
   },
   "browserslist": {
     "production": [

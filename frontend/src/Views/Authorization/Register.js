@@ -1,39 +1,35 @@
 import React, { useState, useContext, useEffect } from "react";
 import { Button } from "@material-ui/core";
 import { UserContext } from "../../Modules/Users/context";
-import { SnackbarProvider, useSnackbar } from 'notistack';
-import { useHistory } from "react-router-dom";
-import { pagePath, routes } from "../../Routes/path";
-
+import { SnackbarProvider, useSnackbar } from "notistack";
+import { pagePath } from "../../Routes/path";
 
 const RegisterComponent = () => {
   const { enqueueSnackbar } = useSnackbar();
   const { getAllRoles, addUser } = useContext(UserContext);
   const [roles, setRoles] = useState([]);
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [fullName, setFullName] = useState('');
-  const [dob, setDob] = useState('');
-  const [country, setCountry] = useState('');
-  const [role, setRole] = useState('');
-  const history = useHistory();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [fullName, setFullName] = useState("");
+  const [dob, setDob] = useState("");
+  const [country, setCountry] = useState("");
+  const [role, setRole] = useState("");
 
-
-  useEffect(async () => {
-    const res = await getAllRoles();
-    setRoles(res);
-    setRole(res[0].name);
-  }, [getAllRoles])
+  useEffect(() => {
+    getAllRoles().then((res) => {
+      setRoles(res);
+      setRole(res[0].name);
+    });
+  }, [getAllRoles]);
 
   const handleRegister = async () => {
-    try{
-      const res = await addUser({ email, password, fullName, dob, country, role });
-      enqueueSnackbar("added user successfully", {variant: 'success'});
-    }catch(err){
-      enqueueSnackbar(err.response.data.message, {variant: 'error'});
+    try {
+      await addUser({ email, password, fullName, dob, country, role });
+      enqueueSnackbar("added user successfully", { variant: "success" });
+    } catch (err) {
+      enqueueSnackbar(err.response.data.message, { variant: "error" });
     }
-
-  }
+  };
 
   return (
     <div className="row">
@@ -54,7 +50,14 @@ const RegisterComponent = () => {
                 Email
               </label>
               <div className="col-lg-8">
-                <input onChange={(e) => { setEmail(e.target.value) }} type="text" id="email" className="form-control" />
+                <input
+                  onChange={(e) => {
+                    setEmail(e.target.value);
+                  }}
+                  type="text"
+                  id="email"
+                  className="form-control"
+                />
               </div>
             </div>
             {/* Email Ends */}
@@ -65,7 +68,9 @@ const RegisterComponent = () => {
               </label>
               <div className="col-lg-8">
                 <input
-                  onChange={(e) => { setPassword(e.target.value) }} 
+                  onChange={(e) => {
+                    setPassword(e.target.value);
+                  }}
                   type="password"
                   id="password"
                   name="password"
@@ -81,7 +86,9 @@ const RegisterComponent = () => {
               </label>
               <div className="col-lg-8">
                 <input
-                  onChange={(e) => { setFullName(e.target.value) }} 
+                  onChange={(e) => {
+                    setFullName(e.target.value);
+                  }}
                   type="text"
                   id="fullName"
                   name="fullName"
@@ -97,7 +104,9 @@ const RegisterComponent = () => {
               </label>
               <div className="col-lg-8">
                 <input
-                  onChange={(e) => { setDob(e.target.value) }} 
+                  onChange={(e) => {
+                    setDob(e.target.value);
+                  }}
                   type="date"
                   id="dateOfBirth"
                   name="dateOfBirth"
@@ -113,7 +122,9 @@ const RegisterComponent = () => {
               </label>
               <div className="col-lg-8">
                 <input
-                  onChange={(e) => { setCountry(e.target.value) }} 
+                  onChange={(e) => {
+                    setCountry(e.target.value);
+                  }}
                   type="text"
                   id="country"
                   name="country"
@@ -128,9 +139,14 @@ const RegisterComponent = () => {
                 Role
               </label>
               <div className="col-lg-8">
-                <select 
-                  onChange={(e) => { setRole(e.target.value) }} 
-                 id="role" name="role" className="form-control">
+                <select
+                  onChange={(e) => {
+                    setRole(e.target.value);
+                  }}
+                  id="role"
+                  name="role"
+                  className="form-control"
+                >
                   {roles.map((role) => (
                     <option key={role._id} value={role.name}>
                       {role.name}
@@ -142,11 +158,23 @@ const RegisterComponent = () => {
             {/* Role Ends */}
           </div>
           <div className="card-footer">
-            <Button onClick={handleRegister} variant="contained" color="primary">Register</Button>
-            {'                    '}
-            <Button onClick={()=>{
-              window.location = pagePath.app.login;
-            }} variant="contained" color="primary">Login instead</Button>
+            <Button
+              onClick={handleRegister}
+              variant="contained"
+              color="primary"
+            >
+              Register
+            </Button>
+            {"                    "}
+            <Button
+              onClick={() => {
+                window.location = pagePath.app.login;
+              }}
+              variant="contained"
+              color="primary"
+            >
+              Login instead
+            </Button>
           </div>
         </div>
       </div>
@@ -154,13 +182,12 @@ const RegisterComponent = () => {
   );
 };
 
-const Register=()=>{
-  return(
+const Register = () => {
+  return (
     <SnackbarProvider>
-      <RegisterComponent/>
+      <RegisterComponent />
     </SnackbarProvider>
-  )
-
-}
+  );
+};
 
 export default Register;

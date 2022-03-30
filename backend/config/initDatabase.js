@@ -48,15 +48,23 @@ const roleAdder = async () => {
 };
 const userAdder = async () => {
   await User.register({
-    email: "limbuisan@gmail.com",
-    password: "2121",
+    email: "admin@gmail.com",
+    password: "9828",
     fullname: "Ishan Chemjong",
+    dateOfBirth: 2013 / 02 / 23,
+    country: "Nepal",
+    role: "ADMIN",
+  });
+  await User.register({
+    email: "staff@gmail.com",
+    password: "9828",
+    fullname: "Samrat Ghale",
     dateOfBirth: 2013 / 02 / 23,
     country: "Nepal",
     role: "ADMIN",
   });
 };
 
-//userAdder();
+userAdder();
 
 roleAdder();
