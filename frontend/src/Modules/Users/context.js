@@ -1,10 +1,11 @@
-import React, { createContext, useReducer } from "react";
+import React, { createContext, useEffect, useReducer } from "react";
 import actions from "./actions";
 import * as Service from "./services";
 import userReducer from "./reducers";
 
 const initialState = {
   user_information: {},
+  list: [],
   refresh: false,
 };
 
@@ -28,6 +29,10 @@ export const UserContextProvider = ({ children }) => {
     return await Service.getAllRole();
   }
 
+  async function approveUser(id) {
+    return await Service.approveUser(id);
+  }
+
   //Register function
   async function addUser(payload) {
     var form = new FormData();
@@ -44,29 +49,49 @@ export const UserContextProvider = ({ children }) => {
   //approving the user function\
 
   //GetAllusers function
-  async function getAllUser(payload) {
-    return await Service.getAllUser(payload);
+  async function getAllUser() {
+    try {
+      const res = await Service.getAllUser();
+      dispatch({ type: actions.SET_LIST, data: res.data });
+    } catch (err) {
+      console.log(err);
+    }
   }
 
   //GetAllroles function
-  async function getAllRole(payload) {
-    return await Service.getAllRole(payload);
+  async function getAllRole() {
+    return await Service.getAllRole();
+  }
+  async function refreshData() {
+    dispatch({ type: actions.REFRESH_DATA, data: true });
   }
 
   function logOut() {
     return Service.logOut();
   }
 
+  useEffect(() => {
+    if (state.refresh === true) {
+      Service.getAllUser().then((res) => {
+        dispatch({ type: actions.SET_LIST, data: res.data });
+        dispatch({ type: actions.REFRESH_DATA, data: false });
+      });
+    }
+  }, [state.refresh]);
+
   return (
     <UserContext.Provider
       value={{
         user_info: state.user_information,
+        list: state.list,
         addUser,
         getAllRoles,
         userLogin,
         logOut,
         getAllUser,
         getAllRole,
+        approveUser,
+        refreshData
       }}
     >
       {children}

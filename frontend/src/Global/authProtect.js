@@ -8,7 +8,6 @@ AuthProtect.propTypes = {
     children: PropTypes.node
   };
 function AuthProtect({children, authUsers}) {
-    console.log(authUsers);
     const currentUser = getUser(); //gets the user data from the local storage
 
     if(!currentUser) {
@@ -16,7 +15,6 @@ function AuthProtect({children, authUsers}) {
     }
 
     const { role, is_registered} = currentUser;
-    console.log(is_registered);
     if(!is_registered) {
         return <Redirect to={pagePath.app.waitForApproval}/> 
     }

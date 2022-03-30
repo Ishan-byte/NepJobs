@@ -61,7 +61,7 @@ const userAdder = async () => {
     fullname: "Samrat Ghale",
     dateOfBirth: 2013 / 02 / 23,
     country: "Nepal",
-    role: "ADMIN",
+    role: "EMPLOYEER",
   });
 };
 

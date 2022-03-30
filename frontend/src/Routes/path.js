@@ -15,6 +15,9 @@ export const pagePath = {
     register: merge_path(routes.app, "/register"),
     waitForApproval: merge_path(routes.app, "/waitforapproval"),
   },
+  admin: {
+    users: merge_path(routes.admin, "/users"),
+  },
 };
 
 export const homePath = {

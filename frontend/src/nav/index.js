@@ -41,11 +41,10 @@ export default function NavBar() {
       {Navconfig.map((navlist, i) => {
         const Guard = navlist.guard;
         const authUsers = navlist.roles || []
-
         return (
           <Guard key={i} authUsers={authUsers}>
-
             {navitems({ navs: navlist.navs })}
+            {'    '}
           </Guard>
         )
       })}

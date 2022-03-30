@@ -1,11 +1,12 @@
 import React from "react";
-import { routes } from "./path";
+import { pagePath, routes } from "./path";
 import Home from "../Views/Home/Home";
 import Admin from "../Views/Home/Admin/index";
 import AuthProtect from "../Global/authProtect";
 import { ROLES } from "../Constants/index";
 import { Redirect } from "react-router-dom";
 import DashboardLayout from "../Layout";
+import Users from "../Modules/Users";
 
 const Routes = {
   path: "*",
@@ -14,7 +15,7 @@ const Routes = {
     {
       exact: true,
       path: routes.app,
-      roles: [ROLES.USER, ROLES.ADMIN],
+      roles: [ROLES.JOBSEEKER,ROLES.EMPLOYEER, ROLES.ADMIN],
       guard: AuthProtect,
       heading: "Home",
       component: (props) => {
@@ -30,6 +31,16 @@ const Routes = {
       heading: "Admin",
       component: (props) => {
         return <Admin {...props} />;
+      },
+    },
+    {
+      exact: true,
+      path: pagePath.admin.users,
+      roles: [ROLES.ADMIN],
+      guard: AuthProtect,
+      heading: "Users",
+      component: (props) => {
+        return <Users{...props} />;
       },
     },
     {

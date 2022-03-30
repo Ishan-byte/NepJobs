@@ -12,6 +12,12 @@ const routes = {
         permissions: [ADMIN]
 
     },
+    approve: {
+        method: 'POST',
+        path: '/approve/{id}',
+        description: 'Approve a user',
+        permissions: [ADMIN]
+    },
 
     //Creating API for user register method
     register: {

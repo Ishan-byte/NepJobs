@@ -35,18 +35,17 @@ export async function addUser(payload){
 }
 
 //function for getting all the users
-export async function getAllUser (payload) {
+export async function getAllUser () {
     try {
-        const res = await axios.get(USER, payload, {
+        const res = await axios.get(USER, {
             headers: {
                 'access_token' : accessToken
             }
         });
-
         return res;
     }
     catch(err) {
-        console.error(err);
+        throw err;
     }
 }
 
@@ -68,6 +67,22 @@ export async function getAllRole () {
 export async function verifyToken(token) {
     try {
         const response = await axios.get(USER + `/auth/${token}`);
+        return response;
+    }
+    catch(err) {
+        console.error(err);
+    }
+}
+
+
+//approve a user
+export async function approveUser(id) {
+    try {
+        const response = await axios.post(USER + `/approve/${id}`,{},{
+            headers:{
+                access_token: accessToken
+            }
+        });
         return response;
     }
     catch(err) {

@@ -15,6 +15,11 @@ module.exports = {
             id: Joi.objectId(),
         })
     },
+    approve: {
+        params: Joi.object({
+            id: Joi.objectId(),
+        })
+    },
 
     //For findbyroles
     findByRoles: {
