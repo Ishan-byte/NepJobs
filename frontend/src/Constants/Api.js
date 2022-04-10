@@ -6,5 +6,5 @@ const base_URL = server_URL + '/api/v1'
 module.exports={
     USER: base_URL + '/User',
     ROLES: base_URL + '/Roles',
-    Job: base_URL + '/Job',
+    JOB: base_URL + '/Job',
 }

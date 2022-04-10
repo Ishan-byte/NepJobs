@@ -1,6 +1,5 @@
 import actions from "./actions";
 
-
 const userReducer = (state, action) => {
     switch (action.type) {
         case actions.SET_USER: 

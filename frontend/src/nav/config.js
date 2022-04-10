@@ -18,6 +18,16 @@ const Navconfig = [
   },
   {
     guard: AuthProtectNav,
+    roles: [ROLES.ADMIN, ROLES.EMPLOYEER, ROLES.JOBSEEKER],
+    navs: [
+      {
+        title: "Jobs",
+        href: pagePath.app.jobs,
+      },
+    ],
+  },
+  {
+    guard: AuthProtectNav,
     roles: [ROLES.ADMIN],
     navs: [
       {

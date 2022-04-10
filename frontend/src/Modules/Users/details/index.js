@@ -24,8 +24,6 @@ const useStyles = makeStyles((theme) => ({
 export default function EditUser({ open, handleOpen, item }) {
     const classes = useStyles();
 
-    console.log(item);
-
     const { enqueueSnackbar } = useSnackbar();
     const { getAllRoles, editUser, refreshData } = useContext(UserContext);
     const [roles, setRoles] = useState([]);
