@@ -1,6 +1,9 @@
 import * as React from 'react';
 import { styled, useTheme } from '@mui/material/styles';
+import { MenuItem } from '@mui/material';
+import { AccountCircle } from '@material-ui/icons';
 import Box from '@mui/material/Box';
+import { makeStyles } from '@material-ui/core';
 import MuiDrawer from '@mui/material/Drawer';
 import MuiAppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
@@ -69,6 +72,17 @@ const AppBar = styled(MuiAppBar, {
     }),
 }));
 
+const useStyles = makeStyles((theme) => ({
+    root: {
+      flexGrow: 1,
+    },
+    menuButton: {
+      marginRight: theme.spacing(2),
+    },
+    title: {
+      flexGrow: 1,
+    },
+  }));
 const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' })(
     ({ theme, open }) => ({
         width: drawerWidth,
@@ -122,6 +136,7 @@ export default function DashboardLayout({ children }) {
     const handleDrawerOpen = () => {
         setOpen(true);
     };
+    const classes = useStyles();
 
     const handleDrawerClose = () => {
         setOpen(false);
@@ -143,9 +158,19 @@ export default function DashboardLayout({ children }) {
                     >
                         <MenuIcon />
                     </IconButton>
-                    <Typography variant="h6" noWrap component="div">
+                    <Typography variant="h6" noWrap className={classes.title} component="div">
                         Nep Jobs
                     </Typography>
+                    <MenuItem >
+                        <IconButton
+                            aria-label="account of current user"
+                            aria-controls="primary-search-account-menu"
+                            aria-haspopup="true"
+                            color="inherit"
+                        >
+                            <AccountCircle fontSize='large' />
+                        </IconButton>
+                    </MenuItem>
                 </Toolbar>
             </AppBar>
             <Drawer variant="permanent" open={open}>

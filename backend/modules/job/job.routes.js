@@ -1,3 +1,4 @@
+const { JOB } = require('../../constant/permissions');
 const controllers = require('./job.controllers')
 const validators = require('./job.validators')
 
@@ -17,6 +18,7 @@ const routes = {
             multipart: true,
             allow: 'multipart/form-data',
         },
+        permissions:[JOB.WRITE]
     },
     getById: {
         method: 'GET',

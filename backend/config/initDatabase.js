@@ -27,7 +27,6 @@ const roleAdder = async () => {
     name: "JOBSEEKER",
     permissions: [
       "job_read",
-      "job_write",
     ],
   });
   await Role.register({
