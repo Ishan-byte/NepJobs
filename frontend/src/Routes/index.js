@@ -10,11 +10,6 @@ import NProgress from "nprogress";
 const routes = [
   {
     exact: true,
-    path: pagePath.app.login,
-    component: lazy(() => import("../Views/Authorization/Login")),
-  },
-  {
-    exact: true,
     path: pagePath.app.register,
     component: lazy(() => import("../Views/Authorization/Register")),
   },
@@ -27,6 +22,11 @@ const routes = [
     exact: true,
     path: pagePath.app.waitForApproval,
     component: lazy(() => import("../Views/Error/Waitforapprove")),
+  },
+  {
+    exact: true,
+    path: pagePath.app.login,
+    component: lazy(() => import("../Views/Authorization/Login")),
   },
   Routes,
 ];

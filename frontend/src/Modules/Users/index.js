@@ -1,6 +1,6 @@
 import React, { useContext, useEffect } from "react";
 import PropTypes from "prop-types";
-import { lighten, makeStyles } from "@material-ui/core/styles";
+import { makeStyles } from "@material-ui/core/styles";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
@@ -13,7 +13,7 @@ import Paper from "@material-ui/core/Paper";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Switch from "@material-ui/core/Switch";
 import { UserContext } from "./context";
-import { Button, Grid, Typography } from "@material-ui/core";
+import { Button,  Typography } from "@material-ui/core";
 import { SnackbarProvider, useSnackbar } from "notistack";
 import { pagePath } from "../../Routes/path";
 
@@ -85,7 +85,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function EnhancedTableHead(props) {
-  const { classes, onSelectAllClick, order, orderBy, rowCount, onRequestSort } =
+  const { classes, order, orderBy, onRequestSort } =
     props;
   const createSortHandler = (property) => (event) => {
     onRequestSort(event, property);
@@ -123,32 +123,10 @@ function EnhancedTableHead(props) {
 EnhancedTableHead.propTypes = {
   classes: PropTypes.object.isRequired,
   onRequestSort: PropTypes.func.isRequired,
-  onSelectAllClick: PropTypes.func.isRequired,
   order: PropTypes.oneOf(["asc", "desc"]).isRequired,
   orderBy: PropTypes.string.isRequired,
   rowCount: PropTypes.number.isRequired,
 };
-
-const useToolbarStyles = makeStyles((theme) => ({
-  root: {
-    paddingLeft: theme.spacing(2),
-    paddingRight: theme.spacing(1),
-  },
-  highlight:
-    theme.palette.type === "light"
-      ? {
-          color: theme.palette.secondary.main,
-          backgroundColor: lighten(theme.palette.secondary.light, 0.85),
-        }
-      : {
-          color: theme.palette.text.primary,
-          backgroundColor: theme.palette.secondary.dark,
-        },
-  title: {
-    flex: "1 1 100%",
-  },
-}));
-
 
 const UsersComponent = () => {
   const classes = useStyles();
@@ -160,12 +138,12 @@ const UsersComponent = () => {
 
   const { enqueueSnackbar } = useSnackbar();
 
-  const { list, refresh, getAllUser, approveUser, refreshData } =
+  const { list, refresh, approveUser, refreshData } =
     useContext(UserContext);
 
   const handleApprove = async (row) => {
     try {
-      const res = await approveUser(row._id);
+      await approveUser(row._id);
       enqueueSnackbar(`Status of ${row.fullname} changed!`, {
         variant: "success",
       });
@@ -278,7 +256,7 @@ const UsersComponent = () => {
                         </Button>
                       </TableCell>
                       <TableCell align="right">
-                        <Button onClick={()=>{
+                        <Button variant="contained" color="secondary" onClick={()=>{
                         }}>
                           <Typography variant="body1">Edit User </Typography>
                         </Button>
