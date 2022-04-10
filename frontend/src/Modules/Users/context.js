@@ -46,6 +46,11 @@ export const UserContextProvider = ({ children }) => {
     return await Service.addUser(form);
   }
 
+  async function editUser(id, payload) {
+    console.log(id);
+    return await Service.editUser(id, payload);
+  }
+
   //approving the user function\
 
   //GetAllusers function
@@ -91,7 +96,8 @@ export const UserContextProvider = ({ children }) => {
         getAllUser,
         getAllRole,
         approveUser,
-        refreshData
+        refreshData,
+        editUser
       }}
     >
       {children}

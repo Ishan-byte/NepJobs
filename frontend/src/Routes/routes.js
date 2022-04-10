@@ -14,6 +14,16 @@ const Routes = {
   routes: [
     {
       exact: true,
+      path: routes.root,
+      roles: [ROLES.JOBSEEKER,ROLES.EMPLOYEER, ROLES.ADMIN],
+      guard: AuthProtect,
+      heading: "Home",
+      component: (props) => {
+        return <Home {...props} />;
+      },
+    },
+    {
+      exact: true,
       path: routes.app,
       roles: [ROLES.JOBSEEKER,ROLES.EMPLOYEER, ROLES.ADMIN],
       guard: AuthProtect,

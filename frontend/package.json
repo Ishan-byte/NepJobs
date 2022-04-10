@@ -20,6 +20,7 @@
     "bootstrap": "4.5.3",
     "dotenv": "^16.0.0",
     "dotenv-webpack": "^7.1.0",
+    "jquery": "^3.6.0",
     "notistack": "^2.0.3",
     "nprogress": "^0.2.0",
     "prop-types": "^15.8.1",

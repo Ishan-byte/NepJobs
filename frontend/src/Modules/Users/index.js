@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, {useState, useContext, useEffect } from "react";
 import PropTypes from "prop-types";
 import { makeStyles } from "@material-ui/core/styles";
 import Table from "@material-ui/core/Table";
@@ -16,6 +16,7 @@ import { UserContext } from "./context";
 import { Button,  Typography } from "@material-ui/core";
 import { SnackbarProvider, useSnackbar } from "notistack";
 import { pagePath } from "../../Routes/path";
+import EditUser from "./details";
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -107,11 +108,6 @@ function EnhancedTableHead(props) {
               onClick={createSortHandler(headCell.id)}
             >
               <Typography  variant="button">{headCell.label}</Typography>
-              {orderBy === headCell.id ? (
-                <span className={classes.visuallyHidden}>
-                  {order === "desc" ? "sorted descending" : "sorted ascending"}
-                </span>
-              ) : null}
             </TableSortLabel>
           </TableCell>
         ))}
@@ -135,6 +131,13 @@ const UsersComponent = () => {
   const [page, setPage] = React.useState(0);
   const [dense, setDense] = React.useState(false);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
+
+  const [openDetails, setOpenDetails] = useState(false);
+  const [item , setItem] = useState({});
+
+  const handleOpenDetails=()=>{
+    setOpenDetails(!openDetails);
+  }
 
   const { enqueueSnackbar } = useSnackbar();
 
@@ -257,6 +260,8 @@ const UsersComponent = () => {
                       </TableCell>
                       <TableCell align="right">
                         <Button variant="contained" color="secondary" onClick={()=>{
+                          setItem(row);
+                          handleOpenDetails();
                         }}>
                           <Typography variant="body1">Edit User </Typography>
                         </Button>
@@ -294,6 +299,7 @@ const UsersComponent = () => {
         >
           <Typography variant="button">Add User</Typography>
         </Button>
+        <EditUser open={openDetails} handleOpen={handleOpenDetails} item={item}/>
       </Paper>
     </Paper>
   );

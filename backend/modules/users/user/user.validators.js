@@ -61,8 +61,6 @@ module.exports = {
             id: Joi.objectId(),
         }),
         payload: Joi.object({
-            email: Joi.string().description("Email of the user"),
-            password: Joi.string().description("Password of the user"),
             fullname: Joi.string().description("Fullname of the user"),
             dateOfBirth: Joi.string().description("DOB of the user"),
             country: Joi.string().description("Country of the user"),

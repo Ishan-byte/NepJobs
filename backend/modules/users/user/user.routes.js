@@ -75,7 +75,7 @@ const routes = {
         method: 'POST',
         path: '/{id}/update',
         description:"Updating the user information",
-        permissions: [USER.WRITE]
+        permissions: [USER.WRITE],
     },
 
 

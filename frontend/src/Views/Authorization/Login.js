@@ -19,10 +19,11 @@ const LoginComponent = () => {
   //  Login function
   const onLoginClick = async () => {
     try {
-      await userLogin({ email, password });
+      const res = await userLogin({ email, password });
       enqueueSnackbar("added user successfully", { variant: "success" });
       history.push(routes.app);
     } catch (err) {
+      console.log(err);
       enqueueSnackbar(err.response.data.message, { variant: "error" });
     }
   };

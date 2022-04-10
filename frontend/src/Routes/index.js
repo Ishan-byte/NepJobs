@@ -15,6 +15,11 @@ const routes = [
   },
   {
     exact: true,
+    path: pagePath.app.login,
+    component: lazy(() => import("../Views/Authorization/Login")),
+  },
+  {
+    exact: true,
     path: "/404",
     component: lazy(() => import("../Views/Error/page404")),
   },
@@ -22,11 +27,6 @@ const routes = [
     exact: true,
     path: pagePath.app.waitForApproval,
     component: lazy(() => import("../Views/Error/Waitforapprove")),
-  },
-  {
-    exact: true,
-    path: pagePath.app.login,
-    component: lazy(() => import("../Views/Authorization/Login")),
   },
   Routes,
 ];

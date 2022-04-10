@@ -10,7 +10,7 @@ const registerFeats = require('./boot/register_modules')
 require('dotenv').config();
 
 //Port number for database
-const port = 4000;
+const port = 4001;
 
 //storing the URL of database in a constant to reduce hassle code
 const db = process.env.MONGODB_URL

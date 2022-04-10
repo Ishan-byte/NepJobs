@@ -4,6 +4,7 @@ function merge_path(base, sub_path) {
 }
 
 export const routes = {
+  root: "/",
   app: "/app",
   admin: "/admin",
   error: "/error",

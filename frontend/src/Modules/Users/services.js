@@ -34,6 +34,24 @@ export async function addUser(payload){
     })
 }
 
+export async function editUser(id, payload) {
+    return new Promise((resolve, reject) => {
+        axios.post(USER + `/${id}/update`, payload,
+            {
+                headers: {
+                    'access_token': accessToken
+                }
+            }
+
+        )
+            .then((res) => {
+                resolve({ sucess: true, status: 200, data: res.data })
+            }).catch((err) => {
+                reject(err)
+            })
+    })
+}
+
 //function for getting all the users
 export async function getAllUser () {
     try {
