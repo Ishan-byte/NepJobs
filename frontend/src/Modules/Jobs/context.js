@@ -22,6 +22,16 @@ export const JobsContextProvider = ({ children }) => {
         }
     }
 
+    async function getByEmployer(id) {
+        try {
+            const res = await Service.getByEmployer(id);
+            dispatch({ type: actions.REFRESH_DATA, data: true});
+            return res.data;
+        } catch (err) {
+            console.log(err.message);
+        }
+    }
+
     function toFormData(o) {
         return Object.entries(o).reduce((d,e) => (d.append(...e),d), new FormData())
       }
@@ -56,7 +66,8 @@ export const JobsContextProvider = ({ children }) => {
                 jobs: state.jobs,
                 getAllJobs,
                 refreshData,
-                addNewJob
+                addNewJob,
+                getByEmployer
             }}
         >
             {children}

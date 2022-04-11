@@ -4,9 +4,8 @@ import Backdrop from '@material-ui/core/Backdrop';
 import Fade from '@material-ui/core/Fade';
 import { Button } from "@material-ui/core";
 import { UserContext } from "../context";
-import { SnackbarProvider, useSnackbar } from "notistack";
+import { useSnackbar } from "notistack";
 import { pagePath } from "../../../Routes/path";
-import { addUser } from "../services";
 import { makeStyles } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({

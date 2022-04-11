@@ -24,4 +24,9 @@ module.exports = {
             id: Joi.objectId(),
         })
     },
+    getByEmployee: {
+        params: Joi.object({
+            id: Joi.objectId(),
+        })
+    },
 }

@@ -25,6 +25,11 @@ const routes = {
         path: '/{id}',
         description: "Getting job info by id"
     },
+    getByEmployee: {
+        method: 'GET',
+        path: '/employee/{id}',
+        description: "Get all the ids posted by the employee"
+    },
 }
 
 function register(app){

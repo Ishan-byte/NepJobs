@@ -1,5 +1,7 @@
 import React, { useState, useContext, useEffect } from "react";
+
 import clsx from 'clsx';
+import { Box } from "@material-ui/core";
 import DetailsIcon from '@material-ui/icons/Details';
 import BookmarkIcon from '@material-ui/icons/Bookmark';
 import { TextField } from "@mui/material";
@@ -24,10 +26,11 @@ import Avatar from '@material-ui/core/Avatar';
 import IconButton from '@material-ui/core/IconButton';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import { colors } from "@material-ui/core";
+import JobDetail from "./details/detailModal";
 
 function escapeRegExp(value) {
     return value.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&');
-  }
+}
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -46,27 +49,27 @@ const useStyles = makeStyles((theme) => ({
         height: 0,
         paddingTop: '56.25%', // 16:9
     },
-    card:{
+    card: {
         backgroundColor: colors.teal[200],
     },
     textField: {
         [theme.breakpoints.down('xs')]: {
-          width: '100%',
+            width: '100%',
         },
         margin: theme.spacing(1, 0.5, 1.5),
         '& .MuiSvgIcon-root': {
-          marginRight: theme.spacing(0.5),
+            marginRight: theme.spacing(0.5),
         },
         '& .MuiInput-underline:before': {
-          borderBottom: `1px solid ${theme.palette.divider}`,
+            borderBottom: `1px solid ${theme.palette.divider}`,
         },
-      },
+    },
 }));
 
 
 
-function QuickSearchToolbar({jobs, setCurrJobs}) {
-    
+function QuickSearchToolbar({ jobs, setCurrJobs }) {
+
     const classes = useStyles();
     const [searchText, setSearchText] = useState('');
 
@@ -86,7 +89,7 @@ function QuickSearchToolbar({jobs, setCurrJobs}) {
             <TextField
                 variant="standard"
                 value={searchText}
-                onChange={(e)=>requestSearch(e.target.value)}
+                onChange={(e) => requestSearch(e.target.value)}
                 placeholder="Search…"
                 className={classes.textField}
                 InputProps={{
@@ -96,49 +99,17 @@ function QuickSearchToolbar({jobs, setCurrJobs}) {
                             title="Clear"
                             aria-label="Clear"
                             size="small"
-                            style={{ visibility: {searchText} ? 'visible' : 'hidden' }}
+                            style={{ visibility: { searchText } ? 'visible' : 'hidden' }}
+                            onClick={() => requestSearch('')}
                         >
-                            <ClearIcon onClick={(e)=>requestSearch('')} fontSize="medium" />
-                            
+                            <ClearIcon fontSize="medium" />
+
                         </IconButton>
                     ),
                 }}
             />
         </div>
     );
-}
-
-const JobSingle = ({ job }) => {
-    const classes = useStyles();
-    return (
-        <Paper className={classes.paper}>
-            <Card className={classes.card}>
-                <CardHeader
-                    title={job.title}
-                    subheader={job.description}
-                />
-                <CardContent>
-                    {job.requirements.map((req, i) => {
-                        if (i < 2) {
-                            return (
-                                <Typography key={i} variant="body1" >
-                                    -  {req}
-                                </Typography>
-                            )
-                        }
-                    })}
-                </CardContent>
-                <CardActions disableSpacing>
-                    <IconButton aria-label="add to favorites">
-                        <BookmarkIcon/>
-                    </IconButton>
-                    <IconButton aria-label="share">
-                        <DetailsIcon/>
-                    </IconButton>
-                </CardActions>
-            </Card>
-        </Paper>
-    )
 }
 
 
@@ -149,11 +120,17 @@ const JobsComponent = () => {
 
     const { jobs, refreshData, refresh } = useContext(JobsContext);
     const [currJobs, setCurrJobs] = useState([]);
+    const [job, setJob] = useState({});
+    const [openDetail, setOpenDetail] = useState(false);
 
-    useEffect(async()=>{
+    const handleOpenDetail = () => {
+        setOpenDetail(!openDetail);
+    }
+
+    useEffect(async () => {
         await refreshData()
         setCurrJobs(jobs);
-    },[jobs])
+    }, [jobs])
 
 
     useEffect(() => {
@@ -176,12 +153,51 @@ const JobsComponent = () => {
                     <Grid container justifyContent="center" spacing={9}>
                         {currJobs.map((job) => (
                             <Grid key={job._id} item>
-                                <JobSingle job={job} />
+                                <Paper className={classes.paper}>
+                                    <Card className={classes.card}>
+                                        <CardHeader
+                                            title={job.title.toUpperCase()}
+                                            subheader={job.employer[0].fullname}
+                                        />
+                                        <CardContent>
+                                            <Typography variant="body1" >
+                                                {job.description}
+                                            </Typography>
+                                            <Typography variant="h5" >
+                                                <Box p="1rem" color="grey">Requirements</Box>
+                                            </Typography>
+                                            {job.requirements.map((req, i) => {
+                                                if (i < 2) {
+                                                    return (
+                                                        <Typography key={i} variant="body1" >
+                                                            -  {req}
+                                                        </Typography>
+                                                    )
+                                                }
+                                            })}
+                                            <Typography variant="body1" >
+                                                ... more
+                                            </Typography>
+                                        </CardContent>
+                                        <CardActions disableSpacing>
+                                            <IconButton aria-label="add to favorites">
+                                                <BookmarkIcon />
+                                            </IconButton>
+                                            <IconButton aria-label="share" onClick={() => {
+                                                setJob(job);
+                                                handleOpenDetail();
+                                            }}>
+                                                <DetailsIcon />
+                                            </IconButton>
+                                        </CardActions>
+                                    </Card>
+                                </Paper>
                             </Grid>
                         ))}
                     </Grid>
                 </Grid>
             </Grid>
+            <JobDetail open={openDetail} handleOpen={handleOpenDetail} job={job}/>
         </div>
     );
 };

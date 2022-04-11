@@ -6,7 +6,7 @@ const dynamicschema = require('../../helpers/schema');
 
 const schema = {
     title: { type: String, required: true, description: "title of the job, example : frontend developer"},
-    employer : {type : ObjectId, ref: "Users", required: true, description: "The user id of the employeer who posted the job"},
+    employer_id : {type : ObjectId, ref: "Users", required: true, description: "The user id of the employeer who posted the job"},
     description: { type: String, required: true, description: "Description of the job"},
     requirements: { type: Array, required: false, default:[],  description: "Requirements for the job, e.g. years of experience, language profeciency"},
     is_available: { type: String, required: true,default: true,  description: "is the job still available" },

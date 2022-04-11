@@ -1,15 +1,17 @@
 import { Button } from "@mui/material";
 import { Typography } from "@mui/material";
-import React, { useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import AddNewJob from "./details/addJob";
-
+import {JobsContext} from '../Jobs/context'
 const Employers = () => {
 
     const [openAddJob, setOpenAddJob] = useState(false);
+    const {getByEmployer, refresh} = useContext(JobsContext)
 
     const handleOpenJob = () => {
         setOpenAddJob(!openAddJob);
     }
+
     return (
         <div>
             <Typography variant="h2">

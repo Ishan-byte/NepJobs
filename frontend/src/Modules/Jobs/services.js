@@ -22,6 +22,20 @@ export async function getAllJobs () {
     }
 }
 
+export async function getByEmployer(id) {
+    try {
+        const res = await axios.get(JOB + `/employee/${id}`,  {
+            headers: {
+                'access_token' : accessToken
+            }
+        });
+        return res;
+    }
+    catch(err) {
+        throw err;
+    }
+}
+
 export async function addNewJob(payload) {
     try {
         const res = await axios.post(JOB + '/register',payload, {
