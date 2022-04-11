@@ -16,7 +16,8 @@ import { UserContext } from "./context";
 import { Button,  Typography } from "@material-ui/core";
 import { SnackbarProvider, useSnackbar } from "notistack";
 import { pagePath } from "../../Routes/path";
-import EditUser from "./details";
+import EditUser from "./details/editUser";
+import AddUser from "./details/addUser";
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -133,10 +134,15 @@ const UsersComponent = () => {
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
 
   const [openDetails, setOpenDetails] = useState(false);
+  const [openAddNew, setOpenAddNew] = useState(false);
   const [item , setItem] = useState({});
 
   const handleOpenDetails=()=>{
     setOpenDetails(!openDetails);
+  }
+
+  const handleAddNew=()=>{
+    setOpenAddNew(!openAddNew);
   }
 
   const { enqueueSnackbar } = useSnackbar();
@@ -293,13 +299,12 @@ const UsersComponent = () => {
         />
         <Button
           variant="contained"
-          onClick={() => {
-            window.location = pagePath.app.register;
-          }}
+          onClick={handleAddNew}
         >
           <Typography variant="button">Add User</Typography>
         </Button>
-        <EditUser open={openDetails} handleOpen={handleOpenDetails} item={item}/>
+        <EditUser open={openDetails} handleOpen={handleOpenDetails} item={item} />
+        <AddUser open={openAddNew} handleOpen={handleAddNew} />
       </Paper>
     </Paper>
   );

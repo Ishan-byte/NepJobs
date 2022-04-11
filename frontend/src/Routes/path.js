@@ -7,6 +7,7 @@ export const routes = {
   root: "/",
   app: "/app",
   admin: "/admin",
+  employeer: "/employeer",
   error: "/error",
 };
 
@@ -19,6 +20,9 @@ export const pagePath = {
   },
   admin: {
     users: merge_path(routes.admin, "/users"),
+  },
+  employeer: {
+    jobs: merge_path(routes.employeer, "/jobs"),
   },
 };
 

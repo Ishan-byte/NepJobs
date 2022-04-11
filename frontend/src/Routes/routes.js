@@ -8,6 +8,7 @@ import { Redirect } from "react-router-dom";
 import DashboardLayout from "../Layout";
 import Users from "../Modules/Users";
 import Jobs from "../Modules/Jobs";
+import Employers from "../Modules/Employeers";
 
 const Routes = {
   path: "*",
@@ -62,6 +63,16 @@ const Routes = {
       heading: "Users",
       component: (props) => {
         return <Users{...props} />;
+      },
+    },
+    {
+      exact: true,
+      path: pagePath.employeer.jobs,
+      roles: [ROLES.ADMIN, ROLES.EMPLOYEER],
+      guard: AuthProtect,
+      heading: "Users",
+      component: (props) => {
+        return <Employers{...props} />;
       },
     },
     {

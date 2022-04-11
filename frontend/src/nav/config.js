@@ -44,6 +44,18 @@ const Navconfig = [
       },
     ],
   },
+  {
+    guard: AuthProtectNav,
+    roles: [ROLES.ADMIN, ROLES.EMPLOYEER],
+    title: "Employeer",
+    navs: [
+      {
+        title: "My Jobs",
+        href: pagePath.employeer.jobs,
+        icon: <PeopleAltIcon/>
+      },
+    ],
+  },
 ];
 
 export default Navconfig;

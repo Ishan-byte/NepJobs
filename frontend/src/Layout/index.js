@@ -179,13 +179,13 @@ export default function DashboardLayout({ children }) {
                         {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
                     </IconButton>
                 </DrawerHeader>
-                <Divider />
                 <List>
                     {Navconfig.map((navList, i) => {
                         const Guard = navList.guard;
                         const authUsers = navList.roles || [];
                         return (
                             <Guard key={i} authUsers={authUsers}>
+                                <Divider />
                                 {open ? (
                                     <Typography variant='button' gutterBottom  >
                                        {  navList.title}
@@ -198,7 +198,6 @@ export default function DashboardLayout({ children }) {
                     }
                     )}
                 </List>
-                <Divider />
                 <List>
                 </List>
             </Drawer>

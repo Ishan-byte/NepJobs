@@ -22,6 +22,21 @@ export const JobsContextProvider = ({ children }) => {
         }
     }
 
+    function toFormData(o) {
+        return Object.entries(o).reduce((d,e) => (d.append(...e),d), new FormData())
+      }
+
+    async function addNewJob(payload) {
+        const form = toFormData(payload);
+        form.delete("requirements")
+        payload.requirements.map((req)=>{
+            form.append("requirements", req)
+        })
+        const res = await Service.addNewJob( form);
+        refreshData()
+        return res;
+    }
+
     async function refreshData() {
         dispatch({ type: actions.REFRESH_DATA, data: true});
     }
@@ -41,6 +56,7 @@ export const JobsContextProvider = ({ children }) => {
                 jobs: state.jobs,
                 getAllJobs,
                 refreshData,
+                addNewJob
             }}
         >
             {children}

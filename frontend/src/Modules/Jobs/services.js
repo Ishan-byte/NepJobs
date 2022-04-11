@@ -21,3 +21,17 @@ export async function getAllJobs () {
         throw err;
     }
 }
+
+export async function addNewJob(payload) {
+    try {
+        const res = await axios.post(JOB + '/register',payload, {
+            headers: {
+                'access_token' : accessToken
+            }
+        });
+        return res;
+    }
+    catch(err) {
+        throw err;
+    }
+}
