@@ -31,7 +31,6 @@ const Job = {
 
     //to register a specific job
     async register(token, data) {
-        console.log(token);
         const { user, permissions } = await userControllers.User.validateToken(token);
         const { title, description, requirements, status, salary } = data;
         const job = await JobModel.create({
@@ -41,6 +40,18 @@ const Job = {
             requirements: requirements,
             status: status,
             salary: salary
+        });
+        return job;
+    },
+
+    //to register a specific job
+    async update(id, data,token) {
+        const { user, permissions } = await userControllers.User.validateToken(token);
+        if(user._id !== id && user.ROLE == "EMPLOYER"){
+            throw {message: "You can't edit other's job post", code : 404}
+        }
+        const job = await JobModel.findByIdAndUpdate(id,{
+        ...data
         });
         return job;
     },
@@ -117,6 +128,7 @@ module.exports = {
     archive: (req) => Job.archive(req.params.id),
     list: (req) => Job.list(),
     getById: (req) => Job.getById(req.params.id),
+    update: (req) => Job.update(req.params.id, req.payload, req.headers.access_token),
     getByEmployee: (req) => Job.getByEmployee(req.params.id)
 }
 

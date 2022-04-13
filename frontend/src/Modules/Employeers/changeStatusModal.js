@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useContext} from "react";
 import BookmarkIcon from '@material-ui/icons/Bookmark';
 import { Box } from "@material-ui/core";
 import IconButton from '@material-ui/core/IconButton';
@@ -15,7 +15,9 @@ import Backdrop from '@material-ui/core/Backdrop';
 import Fade from '@material-ui/core/Fade';
 import { Button } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core";
-import { routes } from "../../../Routes/path";
+import { pagePath } from "../../Routes/path";
+import { ApplyContext} from "../Apply/context";
+import { useSnackbar } from "notistack";
 
 const useStyles = makeStyles((theme) => ({
     modal: {
@@ -34,8 +36,33 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-const JobDetail = ({ job, open, handleOpen }) => {
+const ChangeStatus = ({ apply, open, handleOpen }) => {
     const classes = useStyles();
+
+    const { enqueueSnackbar } = useSnackbar();
+
+    const {refreshData, acceptApplication, rejectApplication} = useContext(ApplyContext)
+
+    async function handleAccept() {
+        try{
+            await acceptApplication(apply._id);    
+            enqueueSnackbar("Application accepted", {variant:"success"})
+            handleOpen();
+        }catch(err){
+            console.log(err)
+            enqueueSnackbar(err.response.data.message, {variant:"error"})
+        }
+    }
+    async function handleReject() {
+        try{
+            await rejectApplication(apply._id);    
+            enqueueSnackbar("Application rejected", {variant:"info"})
+            handleOpen();
+        }catch(err){
+            console.log(err)
+            enqueueSnackbar(err.response.data.message, {variant:"error"})
+        }
+    }
 
     return (
         <Modal
@@ -55,58 +82,45 @@ const JobDetail = ({ job, open, handleOpen }) => {
                     <Grid container className={classes.root} spacing={4}>
                         <Grid item xs={12}>
                             <Grid container justifyContent="center" spacing={9}>
-                                <Grid key={job._id} item>
+                                <Grid key={apply._id} item>
                                     <Paper elevation={3} className={classes.paper} >
                                         <Card className={classes.card}>
                                             <CardHeader
-                                                title={job.title ?
+                                                title={apply.title ?
                                                     <Typography variant="h2" >
-                                                        {job.title.toUpperCase()}
+                                                        {apply.title.toUpperCase()}
                                                     </Typography>
                                                     : ""}
-                                                subheader={job.employer[0].fullname}
                                             />
                                             <CardContent>
                                                 <Typography variant="h5" >
                                                     <Box p="1rem" color="grey">Description</Box>
                                                 </Typography>
                                                 <Typography variant="body1" >
-                                                    {job.description}
-                                                </Typography>
-                                                <Typography variant="h5" >
-                                                    <Box p="1rem" color="grey">Requirements</Box>
-                                                </Typography>
-                                                {job.requirements.map((req, i) => (
-                                                    <Typography key={i} variant="body1" >
-                                                        -  {req}
-                                                    </Typography>
-                                                ))}
-                                                <br />
-                                                <Typography variant="body1" >
-                                                    Salary = {job.salary}$
+                                                    FullName: {apply.fullname}
                                                 </Typography>
                                                 <Typography variant="body1" >
-                                                    Salary {job.salary_negotiable ? "is " : "is not "} negotiable
+                                                    Status : {apply.status}
                                                 </Typography>
                                                 <Typography variant="body1" >
-                                                    Required employees = {job.number_of_employee}
+                                                    Email : {apply.email}
                                                 </Typography>
                                                 <br />
                                                 <br />
                                                 <br />
-                                                <Typography variant="body1" >
-                                                    {job.employer[0].email}
-                                                </Typography>
                                             </CardContent>
                                             <CardActions disableSpacing>
                                                 <IconButton aria-label="add to favorites">
                                                     <BookmarkIcon />
                                                 </IconButton>
-                                                <Button onClick={() => {
-                                                    window.location = routes.employer + `/${job.employer_id}`;
-                                                }}>
+                                                <Button onClick={async()=>{await handleAccept()}} >
                                                     <Typography variant="button" >
-                                                        view employer's profile
+                                                    Accept
+                                                    </Typography>
+                                                </Button>
+                                                <Button onClick={async()=>{await handleReject()}} >
+                                                    <Typography variant="button" >
+                                                    Reject
                                                     </Typography>
                                                 </Button>
                                             </CardActions>
@@ -128,4 +142,4 @@ const JobDetail = ({ job, open, handleOpen }) => {
 };
 
 
-export default JobDetail;
+export default ChangeStatus;

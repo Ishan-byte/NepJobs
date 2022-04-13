@@ -7,4 +7,5 @@ module.exports={
     USER: base_URL + '/User',
     ROLES: base_URL + '/Roles',
     JOB: base_URL + '/Job',
+    APPLY: base_URL + '/Apply',
 }

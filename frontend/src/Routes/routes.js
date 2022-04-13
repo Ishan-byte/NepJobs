@@ -9,6 +9,9 @@ import DashboardLayout from "../Layout";
 import Users from "../Modules/Users";
 import Jobs from "../Modules/Jobs";
 import Employers from "../Modules/Employeers";
+import EmployerDetails from "../Modules/Employeers/details";
+import Applications from "../Modules/Employeers/applications";
+import ApplicationsTable from "../Modules/Jobseeker";
 
 const Routes = {
   path: "*",
@@ -67,12 +70,40 @@ const Routes = {
     },
     {
       exact: true,
-      path: pagePath.employeer.jobs,
+      path: routes.employer,
       roles: [ROLES.ADMIN, ROLES.EMPLOYEER],
       guard: AuthProtect,
       heading: "Users",
       component: (props) => {
         return <Employers{...props} />;
+      },
+    },
+    {
+      exact: true,
+      path: pagePath.employer.applications,
+      roles: [ROLES.ADMIN, ROLES.EMPLOYEER],
+      guard: AuthProtect,
+      heading: "Employe Detail",
+      component: (props) => {
+        return <Applications{...props} />;
+      },
+    },
+    {
+      path: pagePath.employer.details,
+      roles: [ROLES.ADMIN, ROLES.EMPLOYEER],
+      guard: AuthProtect,
+      heading: "Employe Detail",
+      component: (props) => {
+        return <EmployerDetails{...props} />;
+      },
+    },
+    {
+      path: routes.employee,
+      roles: [ROLES.JOBSEEKER, ROLES.EMPLOYEER],
+      guard: AuthProtect,
+      heading: "Employee Detail",
+      component: (props) => {
+        return <ApplicationsTable{...props} />;
       },
     },
     {

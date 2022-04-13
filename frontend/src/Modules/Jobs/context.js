@@ -25,30 +25,36 @@ export const JobsContextProvider = ({ children }) => {
     async function getByEmployer(id) {
         try {
             const res = await Service.getByEmployer(id);
-            dispatch({ type: actions.REFRESH_DATA, data: true});
+            dispatch({ type: actions.REFRESH_DATA, data: true });
             return res.data;
         } catch (err) {
-            console.log(err.message);
+            throw err;
         }
     }
 
     function toFormData(o) {
-        return Object.entries(o).reduce((d,e) => (d.append(...e),d), new FormData())
-      }
+        return Object.entries(o).reduce((d, e) => (d.append(...e), d), new FormData())
+    }
 
     async function addNewJob(payload) {
         const form = toFormData(payload);
         form.delete("requirements")
-        payload.requirements.map((req)=>{
+        payload.requirements.map((req) => {
             form.append("requirements", req)
         })
-        const res = await Service.addNewJob( form);
+        const res = await Service.addNewJob(form);
+        refreshData()
+        return res;
+    }
+
+    async function updateJob(id, payload) {
+        const res = await Service.updateJob(id,payload);
         refreshData()
         return res;
     }
 
     async function refreshData() {
-        dispatch({ type: actions.REFRESH_DATA, data: true});
+        dispatch({ type: actions.REFRESH_DATA, data: true });
     }
 
     useEffect(() => {
@@ -67,7 +73,8 @@ export const JobsContextProvider = ({ children }) => {
                 getAllJobs,
                 refreshData,
                 addNewJob,
-                getByEmployer
+                getByEmployer,
+                updateJob
             }}
         >
             {children}

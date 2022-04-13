@@ -11,5 +11,10 @@ module.exports = {
     WRITE: "job_write",
     REMOVE: "job_remove",
   },
+  APPLY: {
+    READ:   "apply_read",
+    WRITE:  "apply_write",
+    REMOVE: "apply_remove",
+  },
   ADMIN: "app_admin",
 };

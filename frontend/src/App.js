@@ -6,6 +6,7 @@ import { UserContextProvider } from "./Modules/Users/context";
 import routes, { renderRoutes } from "./Routes";
 import { JobsContextProvider } from "./Modules/Jobs/context";
 import { SnackbarProvider } from "notistack";
+import { ApplyContextProvider } from "./Modules/Apply/context";
 
 const history = createBrowserHistory();
 
@@ -17,11 +18,13 @@ export default function App() {
   }, []);
   return (
     <SnackbarProvider>
-      <JobsContextProvider>
-        <UserContextProvider>
-          <Router history={history}>{renderRoutes(routes)}</Router>
-        </UserContextProvider>
-      </JobsContextProvider>
+      <ApplyContextProvider>
+        <JobsContextProvider>
+          <UserContextProvider>
+            <Router history={history}>{renderRoutes(routes)}</Router>
+          </UserContextProvider>
+        </JobsContextProvider>
+      </ApplyContextProvider>
     </SnackbarProvider>
   );
 }

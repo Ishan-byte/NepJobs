@@ -1,9 +1,7 @@
-import React, { useState, useContext, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
+import { JobsContext } from "../../Jobs/context";
+
 import { TextField } from '@material-ui/core';
-import { Button } from "@material-ui/core";
-import { Fade } from "@material-ui/core";
-import { Modal } from "@material-ui/core";
-import Backdrop from '@material-ui/core/Backdrop';
 import { Box } from "@material-ui/core";
 import DetailsIcon from '@material-ui/icons/Details';
 import BookmarkIcon from '@material-ui/icons/Bookmark';
@@ -11,7 +9,6 @@ import SearchIcon from '@material-ui/icons/Search';
 import ClearIcon from '@material-ui/icons/Clear';
 import { SnackbarProvider, useSnackbar } from "notistack";
 import Grid from '@material-ui/core/Grid';
-import { JobsContext } from "./context";
 import { makeStyles } from "@material-ui/core/styles";
 import Paper from '@material-ui/core/Paper';
 import { Typography } from "@material-ui/core";
@@ -21,8 +18,8 @@ import CardContent from '@material-ui/core/CardContent';
 import CardActions from '@material-ui/core/CardActions';
 import IconButton from '@material-ui/core/IconButton';
 import { colors } from "@material-ui/core";
-import JobDetail from "./details/detailModal";
-import { ApplyContext } from "../Apply/context";
+import JobDetail from "../../Jobs/details/detailModal";
+import EditJob from "./editJob";
 
 function escapeRegExp(value) {
     return value.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&');
@@ -32,17 +29,17 @@ const useStyles = makeStyles((theme) => ({
     root: {
         flexGrow: 1,
     },
-  applyPaper: {
+    applyPaper: {
         border: '2px solid #000',
         boxShadow: theme.shadows[5],
         backgroundColor: colors.orange[200],
         padding: theme.spacing(4, 4, 3),
-  },
-  modal: {
+    },
+    modal: {
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-  },
+    },
     paper: {
         height: 290,
         width: 300,
@@ -72,8 +69,6 @@ const useStyles = makeStyles((theme) => ({
         },
     },
 }));
-
-
 
 function QuickSearchToolbar({ jobs, setCurrJobs }) {
 
@@ -119,67 +114,19 @@ function QuickSearchToolbar({ jobs, setCurrJobs }) {
     );
 }
 
-const ApplyConformation=({job, open, handleOpen, handleConfirm})=>{
-  const classes = useStyles();
-    return (
-        <Modal
-            aria-labelledby="transition-modal-title"
-            aria-describedby="transition-modal-description"
-            className={classes.modal}
-            open={open}
-            onClose={handleOpen}
-            closeAfterTransition
-            BackdropComponent={Backdrop}
-            BackdropProps={{
-                timeout: 500,
-            }}
-        >
-            <Fade in={open}>
-                <Paper className={classes.applyPaper} variant="outlined" >
-                    <Typography variant="h5">
-                        You are applying for {job.title} role at {job.employer[0].fullname} 
-                    </Typography>
-                    <Grid container>
-                        <Grid item>
-                            <TextField id="outlined-basic" label="Outlined" variant="outlined" />
-                        </Grid>
-                        <Grid item>
-                            <Button variant="contained" color="primary" onClick={handleConfirm}>
-                                <Typography variant="button" >
-                                    Confirm
-                                </Typography>
-                            </Button>
-                        </Grid>
-                        <Grid item>
-                        <Button variant="contained" color="secondary">
-                        <Typography variant="button" >
-                            Cancel
-                        </Typography>
-                    </Button>
-                        </Grid>
-                    </Grid>
-                </Paper>
+export default function EmployerDetails(props) {
+    const employer_id = props.match.params.id;
 
-                </Fade>
-                </Modal>
+    const { getByEmployer, refresh } = useContext(JobsContext);
+    const [jobs, setJobs] = useState([]);
 
-    )
-}
-
-
-const JobsComponent = () => {
-
-    //declearation
     const { enqueueSnackbar } = useSnackbar();
     const classes = useStyles();
-    const { jobs, refreshData, refresh } = useContext(JobsContext);
-    const {addApply} = useContext(ApplyContext);
     const [currJobs, setCurrJobs] = useState([]);
     const [job, setJob] = useState({});
     const [openDetail, setOpenDetail] = useState(false);
     const [openApply, setOpenApply] = useState(false);
-    
-    //defination
+
     const handleOpenDetail = () => {
         setOpenDetail(!openDetail);
     }
@@ -189,32 +136,17 @@ const JobsComponent = () => {
     }
 
     useEffect(async () => {
-        await refreshData()
-        setCurrJobs(jobs);
-    }, [jobs])
-
-    async function handleConfirm(){
-        try{
-            await addApply({job_id: job._id, remarks: "remarks"})
-            enqueueSnackbar(`Applied for job`, {
-                variant: "success",
-            });
-        }catch(err){
-            enqueueSnackbar(err.response.data.message, {
-                variant: "error",
-            });
-        }
-    }
-
-    useEffect(() => {
-        refreshData();
+        const i = await getByEmployer(employer_id);
+        setJobs(i);
+        setCurrJobs(i);
     }, [refresh])
+
     return (
         <div className={classes.root}  >
             <Grid container className="col-lg-8">
                 <Grid item className="col-lg-5">
-                    <Typography variant="h2">
-                        Jobs
+                    <Typography variant="h5">
+                        Jobs Posted By You
                     </Typography>
                 </Grid>
                 <Grid item className="col-lg-3">
@@ -224,8 +156,7 @@ const JobsComponent = () => {
             <Grid container className={classes.root} spacing={4}>
                 <Grid item xs={12}>
                     <Grid container justifyContent="center" spacing={9}>
-                        {currJobs ?(
-                        currJobs.map((job) => (
+                        {currJobs.map((job) => (
                             <Grid key={job._id} item>
                                 <Paper className={classes.paper}>
                                     <Card className={classes.card}>
@@ -271,25 +202,11 @@ const JobsComponent = () => {
                                     </Card>
                                 </Paper>
                             </Grid>
-                        ))
-                        ):("")}
+                        ))}
                     </Grid>
                 </Grid>
             </Grid>
             <JobDetail open={openDetail} handleOpen={handleOpenDetail} job={job}/>
-            {openApply?(
-
-            <ApplyConformation job={job} open={openApply} handleOpen={handleOpenApply} handleConfirm={handleConfirm} /> 
-            ):""}
         </div>
-    );
-};
-
-const Jobs = () => {
-    return (
-        <SnackbarProvider>
-            <JobsComponent />
-        </SnackbarProvider>
-    );
-};
-export default Jobs;
+    )
+}

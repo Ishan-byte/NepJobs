@@ -1,16 +1,29 @@
 import axios from 'axios';
-import {JOB, ROLES} from '../../Constants/Api.js';
 import { saveUser, saveUserToken, saveUserPermissions, getToken, logOutUser } from '../../Utils/SessionManager';
+import { APPLY } from '../../Constants/Api';
 
 
-//getting token of the loggedIn user
 const accessToken = getToken();
 
-//function for Login
-//function for getting all the users
-export async function getAllJobs () {
+
+export async function getAllApplies(){
+    try{
+        const res = await axios.get(APPLY ,{
+            headers:{
+                'access_token' : accessToken
+            }
+        })
+        return res;
+    }
+    catch(err){
+        throw err;
+    }
+}
+
+
+export async function addApply(payload) {
     try {
-        const res = await axios.get(JOB, {
+        const res = await axios.post(APPLY+ `/register/${accessToken}`,payload, {
             headers: {
                 'access_token' : accessToken
             }
@@ -22,9 +35,9 @@ export async function getAllJobs () {
     }
 }
 
-export async function getByEmployer(id) {
+export async function acceptApplication(id) {
     try {
-        const res = await axios.get(JOB + `/employee/${id}`,  {
+        const res = await axios.post(APPLY+ `/approve/${id}`,{}, {
             headers: {
                 'access_token' : accessToken
             }
@@ -36,23 +49,9 @@ export async function getByEmployer(id) {
     }
 }
 
-export async function addNewJob(payload) {
+export async function rejectionApplication(id) {
     try {
-        const res = await axios.post(JOB + '/register',payload, {
-            headers: {
-                'access_token' : accessToken
-            }
-        });
-        return res;
-    }
-    catch(err) {
-        throw err;
-    }
-}
-
-export async function updateJob(id, payload) {
-    try {
-        const res = await axios.post(JOB + `/${id}`,payload, {
+        const res = await axios.post(APPLY+ `/reject/${id}`,{}, {
             headers: {
                 'access_token' : accessToken
             }

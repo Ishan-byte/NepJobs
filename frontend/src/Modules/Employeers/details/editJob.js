@@ -3,6 +3,10 @@ import { SnackbarProvider, useSnackbar } from "notistack";
 import DeleteIcon from '@material-ui/icons/Delete';
 import { JobsContext } from '../../Jobs/context';
 import { makeStyles } from '@material-ui/core/styles';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Checkbox from '@material-ui/core/Checkbox';
+import CheckBoxOutlineBlankIcon from '@material-ui/icons/CheckBoxOutlineBlank';
+import CheckBoxIcon from '@material-ui/icons/CheckBox';
 import Modal from '@material-ui/core/Modal';
 import Backdrop from '@material-ui/core/Backdrop';
 import Fade from '@material-ui/core/Fade';
@@ -23,11 +27,11 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function AddNewJob({ open, handleOpen }) {
+export default function EditJob({ job,  open, handleOpen }) {
   const classes = useStyles();
 
   const { enqueueSnackbar } = useSnackbar();
-  const {addNewJob} =  useContext(JobsContext);
+  const {updateJob, refreshData} =  useContext(JobsContext);
   const [title , setTitle] = useState([]);
   const [description, setDescription] = useState("");
   const [requirements, setRequirements] = useState([""]);
@@ -47,12 +51,24 @@ export default function AddNewJob({ open, handleOpen }) {
     }
   }
 
-  async function handleAddJob() {
+  useEffect(()=>{
+    setTitle(job.title)
+    setDescription(job.description)
+    setSalary(job.salary)
+    setSalaryNegotiable(job.salary_negotiable)
+    if(job.requirements){
+      setRequirements([...job.requirements,"" ]);
+    }
+    setNumEmployees(job.number_of_employee)
+  },[job])
+
+  async function handleUpdateJob() {
     try{
-      const res = await addNewJob({
+      const res = await updateJob(job._id,{
         title, description, requirements, salary, salary_negotiable, number_of_employee
       })
-      enqueueSnackbar("Job posted successfully", {variant: "success"})
+      refreshData();
+      enqueueSnackbar("Job updated successfully", {variant: "success"})
     }catch(err){
       enqueueSnackbar(err.response.data.message, {variant: "error"})
     }
@@ -201,11 +217,11 @@ export default function AddNewJob({ open, handleOpen }) {
               </div>
               <div className="card-footer">
                 <Button
-                  onClick={handleAddJob}
+                  onClick={handleUpdateJob}
                   variant="contained"
                   color="primary"
                 >
-                 Post Job 
+                 Save Changes
                 </Button>
                 {"                    "}
                 <Button

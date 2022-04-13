@@ -23,7 +23,12 @@ const routes = {
     getById: {
         method: 'GET',
         path: '/{id}',
-        description: "Getting job info by id"
+        description: "Getting job info by id",
+    },
+    update: {
+        method: 'POST',
+        path: '/{id}',
+        description: "Update job info by id",
     },
     getByEmployee: {
         method: 'GET',

@@ -51,7 +51,24 @@ const Navconfig = [
     navs: [
       {
         title: "My Jobs",
-        href: pagePath.employeer.jobs,
+        href: routes.employer,
+        icon: <PeopleAltIcon/>
+      },
+      {
+        title: "Applications",
+        href: pagePath.employer.applications,
+        icon: <PeopleAltIcon/>
+      },
+    ],
+  },
+  {
+    guard: AuthProtectNav,
+    roles: [ROLES.JOBSEEKER],
+    title: "Jobseeker",
+    navs: [
+      {
+        title: "My Jobs",
+        href: routes.employee,
         icon: <PeopleAltIcon/>
       },
     ],
