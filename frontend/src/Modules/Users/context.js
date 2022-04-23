@@ -29,6 +29,10 @@ export const UserContextProvider = ({ children }) => {
     return await Service.getAllRole();
   }
 
+  async function getById(id) {
+    return await Service.getById(id);
+  }
+
   async function approveUser(id) {
     return await Service.approveUser(id);
   }
@@ -97,7 +101,8 @@ export const UserContextProvider = ({ children }) => {
         getAllRole,
         approveUser,
         refreshData,
-        editUser
+        editUser,
+        getById
       }}
     >
       {children}

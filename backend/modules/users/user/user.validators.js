@@ -63,6 +63,7 @@ module.exports = {
         payload: Joi.object({
             fullname: Joi.string().description("Fullname of the user"),
             dateOfBirth: Joi.string().description("DOB of the user"),
+            email: Joi.string().description("email of the user"),
             country: Joi.string().description("Country of the user"),
             role: Joi.string().description("Role of the user"),
         }),

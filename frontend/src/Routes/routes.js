@@ -12,6 +12,7 @@ import Employers from "../Modules/Employeers";
 import EmployerDetails from "../Modules/Employeers/details";
 import Applications from "../Modules/Employeers/applications";
 import ApplicationsTable from "../Modules/Jobseeker";
+import Profile from "../Views/Home/profile";
 
 const Routes = {
   path: "*",
@@ -104,6 +105,15 @@ const Routes = {
       heading: "Employee Detail",
       component: (props) => {
         return <ApplicationsTable{...props} />;
+      },
+    },
+    {
+      path: routes.profile,
+      roles: [ROLES.JOBSEEKER, ROLES.EMPLOYEER,ROLES.ADMIN],
+      guard: AuthProtect,
+      heading: "Profile",
+      component: (props) => {
+        return <Profile{...props} />;
       },
     },
     {

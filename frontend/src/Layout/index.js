@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { styled, useTheme } from '@mui/material/styles';
+import { Menu } from '@material-ui/core';
 import { MenuItem } from '@mui/material';
 import { AccountCircle } from '@material-ui/icons';
 import Box from '@mui/material/Box';
@@ -22,6 +23,8 @@ import InboxIcon from '@mui/icons-material/MoveToInbox';
 import MailIcon from '@mui/icons-material/Mail';
 import { Button } from '@material-ui/core';
 import Navconfig from '../nav/config';
+import { routes } from '../Routes/path';
+import { logOutUser } from '../Utils/SessionManager';
 const drawerWidth = 240;
 
 const openedMixin = (theme) => ({
@@ -74,15 +77,15 @@ const AppBar = styled(MuiAppBar, {
 
 const useStyles = makeStyles((theme) => ({
     root: {
-      flexGrow: 1,
+        flexGrow: 1,
     },
     menuButton: {
-      marginRight: theme.spacing(2),
+        marginRight: theme.spacing(2),
     },
     title: {
-      flexGrow: 1,
+        flexGrow: 1,
     },
-  }));
+}));
 const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' })(
     ({ theme, open }) => ({
         width: drawerWidth,
@@ -132,9 +135,20 @@ function navItem({ navs, open }) {
 export default function DashboardLayout({ children }) {
     const theme = useTheme();
     const [open, setOpen] = React.useState(false);
+    const [anchorEl, setAnchorEl] = React.useState(null);
+
+    const openPop = Boolean(anchorEl);
+
+    const handleMenu = (event) => {
+        setAnchorEl(event.currentTarget);
+    };
 
     const handleDrawerOpen = () => {
         setOpen(true);
+    };
+
+    const handleClose = () => {
+        setAnchorEl(null);
     };
     const classes = useStyles();
 
@@ -161,16 +175,39 @@ export default function DashboardLayout({ children }) {
                     <Typography variant="h6" noWrap className={classes.title} component="div">
                         Nep Jobs
                     </Typography>
-                    <MenuItem >
-                        <IconButton
-                            aria-label="account of current user"
-                            aria-controls="primary-search-account-menu"
-                            aria-haspopup="true"
-                            color="inherit"
-                        >
-                            <AccountCircle fontSize='large' />
-                        </IconButton>
-                    </MenuItem>
+                    <div>
+              <IconButton
+                aria-label="account of current user"
+                aria-controls="menu-appbar"
+                aria-haspopup="true"
+                onClick={handleMenu}
+                color="inherit"
+              >
+                <AccountCircle fontSize='large' />
+              </IconButton>
+              <Menu
+                id="menu-appbar"
+                anchorEl={anchorEl}
+                anchorOrigin={{
+                  vertical: 'top',
+                  horizontal: 'right',
+                }}
+                keepMounted
+                transformOrigin={{
+                  vertical: 'top',
+                  horizontal: 'right',
+                }}
+                open={openPop}
+                onClose={handleClose}
+              >
+                <MenuItem onClick={()=>{
+                    window.location=routes.profile;
+                }}>Profile</MenuItem>
+                <MenuItem onClick={()=>{
+                    logOutUser();
+                }}>Logout</MenuItem>
+              </Menu>
+            </div>
                 </Toolbar>
             </AppBar>
             <Drawer variant="permanent" open={open}>
@@ -188,7 +225,7 @@ export default function DashboardLayout({ children }) {
                                 <Divider />
                                 {open ? (
                                     <Typography variant='button' gutterBottom  >
-                                       {  navList.title}
+                                        {navList.title}
                                     </Typography>
                                 )
                                     : ""}

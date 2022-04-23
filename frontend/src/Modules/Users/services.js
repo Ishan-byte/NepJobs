@@ -67,6 +67,20 @@ export async function getAllUser () {
     }
 }
 
+export async function getById(id) {
+    try {
+        const res = await axios.get(USER+`/${id}`, {
+            headers: {
+                'access_token' : accessToken
+            }
+        });
+        return res.data;
+    }
+    catch(err) {
+        throw err;
+    }
+}
+
 
 //function for getting all the user roles
 export async function getAllRole () {

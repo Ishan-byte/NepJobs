@@ -9,6 +9,7 @@ export const routes = {
   employer: "/employer",
   employee: "/employee",
   admin: "/admin",
+  profile: "/profile",
   error: "/error",
 };
 
