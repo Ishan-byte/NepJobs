@@ -54,16 +54,6 @@ const Routes = {
       path: routes.admin,
       roles: [ROLES.ADMIN],
       guard: AuthProtect,
-      heading: "Admin",
-      component: (props) => {
-        return <Admin {...props} />;
-      },
-    },
-    {
-      exact: true,
-      path: pagePath.admin.users,
-      roles: [ROLES.ADMIN],
-      guard: AuthProtect,
       heading: "Users",
       component: (props) => {
         return <Users{...props} />;

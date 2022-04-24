@@ -37,11 +37,6 @@ const Navconfig = [
         href: routes.admin,
         icon: <PeopleAltIcon/>
       },
-      {
-        title: "Users",
-        href: pagePath.admin.users,
-        icon: <RecentActorsIcon/>
-      },
     ],
   },
   {
